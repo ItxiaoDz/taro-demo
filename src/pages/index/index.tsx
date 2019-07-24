@@ -65,6 +65,11 @@ class Index extends Component {
     navigationBarTitleText: '首页'
   }
 
+  static getDerivedStateFromProps(props, state) {
+    console.log(props);
+    return null;
+  }
+
   componentWillReceiveProps (nextProps) {
     console.log(this.props, nextProps)
   }

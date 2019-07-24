@@ -1,8 +1,8 @@
 {
 	"miniprogramRoot": "dist/",
-	"projectname": "yiwen-mobile",
-	"description": "仪问移动端",
-	"appid": "wx58de0db1497c796e",
+	"projectname": "taro-demo",
+	"description": "taro-demo",
+	"appid": "",
 	"setting": {
 		"urlCheck": true,
 		"es6": false,
