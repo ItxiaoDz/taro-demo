@@ -32,6 +32,9 @@ const config = {
     options: {
     }
   },
+  jsxAttributeNameReplace: {
+    // catchTouchMove: 'catchtouchmove'
+  },
   weapp: {
     module: {
       postcss: {

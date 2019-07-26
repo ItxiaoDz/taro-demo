@@ -6,6 +6,7 @@ import { connect } from '@tarojs/redux'
 import { add, minus, asyncAdd } from '../../actions/counter'
 
 import './index.less'
+import { ITouchEvent } from '@tarojs/components/types/common';
 
 // #region 书写注意
 //
@@ -61,8 +62,13 @@ class Index extends Component {
    * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
-    config: Config = {
+  config: Config = {
     navigationBarTitleText: '首页'
+  }
+
+  state = {
+    scrollMaskShow: false,
+    notScrollMaskShow: false,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -80,6 +86,61 @@ class Index extends Component {
 
   componentDidHide () { }
 
+  showScrollMask = () => {
+    this.setState({
+      scrollMaskShow: true,
+    })
+  }
+  closeScrollMask = () => {
+    this.setState({
+      scrollMaskShow: false,
+    })
+  }
+  
+  showNotScrollMask = () => {
+    this.setState({
+      notScrollMaskShow: true,
+    })
+  }
+  closeNotScrollMask = () => {
+    this.setState({
+      notScrollMaskShow: false,
+    })
+  }
+
+  disMove = (e: ITouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    return;
+  }
+
+
+  renderCanScrollMask = () => {
+    const { scrollMaskShow } = this.state;
+    let maskClassNames = 'mask';
+    if (scrollMaskShow) {
+      maskClassNames += ' show';
+    }
+    return (
+      <View className={maskClassNames} onTouchMove={e => this.disMove(e)} onClick={this.closeScrollMask}>
+
+      </View>
+    )
+  }
+
+  renderNotScrollMask = () => {
+    const { notScrollMaskShow } = this.state;
+    let maskClassNames = 'mask';
+    if (notScrollMaskShow) {
+      maskClassNames += ' show';
+    }
+    return (
+      <View className={maskClassNames} catchtouchmove={e => this.disMove(e)} onClick={this.closeNotScrollMask}>
+
+      </View>
+    )
+  }
+
   render () {
     return (
       <View className='index'>
@@ -88,6 +149,11 @@ class Index extends Component {
         <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
         <View><Text>{this.props.counter.num}</Text></View>
         <View><Text>Hello, World22222</Text></View>
+        <Button onClick={this.showScrollMask}>打开底层页面可以滚动的蒙层</Button>
+        <Button onClick={this.showNotScrollMask}>打开能阻止底层页面滚动的蒙层</Button>
+        <View className="placeholder-box">占位，使页面超过一页</View>
+        {this.renderCanScrollMask()}
+        {this.renderNotScrollMask()}
       </View>
     )
   }
